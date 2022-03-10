@@ -19,5 +19,13 @@ for(i in 2:100000){
 #5.1
 length(cor_vector[cor_vector>0.9])
 
-#6.
-which()
+#5.2
+which(cor_vector>0.9)
+
+#5.3
+mean(cor_vector)
+
+#5.4
+Matrix[which.max(cor_vector),]
+
+#5.5
