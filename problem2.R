@@ -65,12 +65,9 @@ cor(A, S2) #0.9617555
 #3. 
 ?plot
 p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n',
-          xlab = "Year", ylab = "Suicide",
-          legend("top", legend = c("Actual data", "Simulated data")))
-
+          xlab = "Year", ylab = "Suicide")
 lines(S2, type = "b", pch = 18, col = "blue")
-
-axis(1, at = seq(1999,2009))
-
+axis(1, at = 1:11 , labels = 1999 : 2009 )
+legend("top", legend = c("Actual data", "Simulated data") , col =c("red","blue"), lty =1:1, box.lty = 0)
 # add one more line
-title(main = "Autos", col.main = "red", font.main = 4)
+title(main = "Correlation = 0.9618", col.main = "black", font.main = 2)
