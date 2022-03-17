@@ -1,37 +1,28 @@
+# Problem 1
 #1.
 suidata <- c(5427, 5688, 6198, 6462, 6635, 7336, 7248, 7491, 8161, 8578, 9000)
 
 #2. & #3.
 set.seed(2015)
 
-######Better method for constructing the matrix######
+# Constructing the matrix
 Matrix <- matrix(0, 100000, 11)
 for (i in 1:100000){
     Matrix[i,] <- runif(11)
 }
 Matrix #Check the constructed matrix
 dim(Matrix) #100000 observations and 11 variables
-######################################################
 
 #4.
-####Better method for constructing the vector#######
+# Constructing the vector
 cor_vector <- rep(0, 100000)
 for(i in 1:100000){
     cor_vector[i] <- cor(suidata, Matrix[i,])
 }
-#####################################################
-
-####Previous method for constructing the vector#######
-# cor_vector <- cor(suidata, Matrix[1,])
-# for(i in 2:100000){
-#     cor_vector <- append(cor_vector, cor(suidata, Matrix[i,]))
-# }
-#####################################################
 
 #5. 
 #5.1
 length(cor_vector[cor_vector>0.9]) #Return 8
-
 
 #5.2
 which(cor_vector>0.9) 
@@ -53,6 +44,7 @@ rownames(output_matrix) <- c(1999:2009)
 colnames(output_matrix) <- c('suicide', 'runif')
 output_matrix
 
+# Problem 2 
 #1. 
 A <- output_matrix[,"suicide"]
 S <- output_matrix[,"runif"]
@@ -61,15 +53,19 @@ S2 <- S1 + A["1999"] - S1["1999"]
 
 #2.
 outcor <- round(cor(A, S2), 4) #0.9617555
+#Stores the cor(A, S2) in outcor in order to be used in the graph title
+
 #3. 
 p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n', 
           xlab = "Year", ylab = "Suicide")
-## add one more line
+# Add one more line
 lines(S2, type = "b", pch = 18, col = "mediumblue")
+# Add axis
 axis(1, at = 1:11 , labels = 1999 : 2009 )
+# Add legend
 legend(x="top", legend=c("Actual data", "Simulated data")
        ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
-## add topic
+# Add title of the graph
 title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
 
 # bonus problem
