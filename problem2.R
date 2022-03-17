@@ -60,8 +60,7 @@ S1 <- S * ((max(A)-min(A))/(max(S)-min(S)))
 S2 <- S1 + A["1999"] - S1["1999"]
 
 #2.
-cor(A, S2) #0.9617555
-
+outcor <- round(cor(A, S2), 4) #0.9617555
 #3. 
 p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n', 
           xlab = "Year", ylab = "Suicide")
@@ -71,4 +70,17 @@ axis(1, at = 1:11 , labels = 1999 : 2009 )
 legend(x="top", legend=c("Actual data", "Simulated data")
        ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
 ## add topic
-title(main = "Correlation = 0.9618", col.main = "black", font.main = 2)
+title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
+
+# bonus problem
+plot(A, type = "b", pch = 19, col = "red", col.axis='red', xaxt = 'n', las=1, 
+     xlab = "Year", ylab = "Suicide")
+axis(1, at = 1:11 , labels = 1999 : 2009 )
+par(new=TRUE)
+plot(S, type='b',pch = 18, col = "mediumblue", 
+     xaxt='n', yaxt='n', ylim=c(0.225,1), ann=FALSE)
+axis(4, las=1, col.axis='mediumblue', col='mediumblue')
+legend(x="top", legend=c("Actual data", "Simulated data")
+       ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
+title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
+
