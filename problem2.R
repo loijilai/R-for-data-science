@@ -13,13 +13,6 @@ Matrix #Check the constructed matrix
 dim(Matrix) #100000 observations and 11 variables
 ######################################################
 
-######Previous method for constructing the matrix######
-# Matrix <- runif(11)
-# for(i in 1:99999){
-#     Matrix <- rbind(Matrix, runif(11))
-# }
-######################################################
-
 #4.
 ####Better method for constructing the vector#######
 cor_vector <- rep(0, 100000)
@@ -60,3 +53,24 @@ rownames(output_matrix) <- c(1999:2009)
 colnames(output_matrix) <- c('suicide', 'runif')
 output_matrix
 
+#1. 
+A <- output_matrix[,"suicide"]
+S <- output_matrix[,"runif"]
+S1 <- S * ((max(A)-min(A))/(max(S)-min(S)))
+S2 <- S1 + A["1999"] - S1["1999"]
+
+#2.
+cor(A, S2) #0.9617555
+
+#3. 
+?plot
+p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n',
+          xlab = "Year", ylab = "Suicide",
+          legend("top", legend = c("Actual data", "Simulated data")))
+
+lines(S2, type = "b", pch = 18, col = "blue")
+
+axis(1, at = seq(1999,2009))
+
+# add one more line
+title(main = "Autos", col.main = "red", font.main = 4)
