@@ -70,12 +70,13 @@ title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 
 
 # bonus problem
 plot(A, type = "b", pch = 19, col = "red", col.axis='red', xaxt = 'n', las=1, 
-     xlab = "Year", ylab = "Suicide")
-axis(1, at = 1:11 , labels = 1999 : 2009 )
+     xlab = "Year", ylab = "Suicide", cex.axis=0.9)
+axis(1, at = 1:11 , labels = 1999 : 2009, cex.axis=0.9 )
 par(new=TRUE)
 plot(S, type='b',pch = 18, col = "mediumblue", 
      xaxt='n', yaxt='n', ylim=c(0.225,1), ann=FALSE)
-axis(4, las=1, col.axis='mediumblue', col='mediumblue')
+axis(4, las=1, at=seq(0.2, 1.0, 0.1), labels =str(seq(0.2, 1.0, 0.1)), 
+     col.axis='mediumblue', col='mediumblue', cex.axis=0.9)
 legend(x="top", legend=c("Actual data", "Simulated data")
        ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
 title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
