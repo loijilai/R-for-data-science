@@ -63,11 +63,12 @@ S2 <- S1 + A["1999"] - S1["1999"]
 cor(A, S2) #0.9617555
 
 #3. 
-?plot
-p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n',
+p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n', 
           xlab = "Year", ylab = "Suicide")
-lines(S2, type = "b", pch = 18, col = "blue")
+## add one more line
+lines(S2, type = "b", pch = 18, col = "mediumblue")
 axis(1, at = 1:11 , labels = 1999 : 2009 )
-legend("top", legend = c("Actual data", "Simulated data") , col =c("red","blue"), lty =1:1, box.lty = 0)
-# add one more line
+legend(x="top", legend=c("Actual data", "Simulated data")
+       ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
+## add topic
 title(main = "Correlation = 0.9618", col.main = "black", font.main = 2)
