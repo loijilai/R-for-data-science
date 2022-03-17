@@ -66,11 +66,11 @@ cor(A, S2) #0.9617555
 ?plot
 p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n',
           xlab = "Year", ylab = "Suicide",
-          legend("top", legend = c("Actual data", "Simulated data")))
+         )
 
 lines(S2, type = "b", pch = 18, col = "blue")
 
-axis(1, at = seq(1999,2009))
+axis(1, at = 1:11, labels= 1999:2009)
 
 # add one more line
 title(main = "Autos", col.main = "red", font.main = 4)
