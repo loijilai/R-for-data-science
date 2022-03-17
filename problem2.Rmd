@@ -1,0 +1,100 @@
+---
+title: "Group Assignment: Problem 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## Problem 1
+#### 1.
+```{r }
+suidata <- c(5427, 5688, 6198, 6462, 6635, 7336, 7248, 7491, 8161, 8578, 9000)
+```
+#### 2 & 3.
+```{r }
+set.seed(2015)
+# Constructing the matrix
+Matrix <- matrix(0, 100000, 11)
+for (i in 1:100000){
+    Matrix[i,] <- runif(11)
+}
+dim(Matrix) #100000 observations and 11 variables
+```
+
+#### 4.
+```{r }
+# Constructing the vector
+cor_vector <- rep(0, 100000)
+for(i in 1:100000){
+    cor_vector[i] <- cor(suidata, Matrix[i,])
+}
+```
+
+#### 5. 
+```{r }
+#5.1
+length(cor_vector[cor_vector>0.9]) 
+#5.2
+which(cor_vector>0.9) 
+#5.3
+mean(cor_vector) 
+#5.4
+Matrix[which.max(cor_vector),]
+#5.5
+cor_matrix <- Matrix[which.max(cor_vector),]
+datamatrix <- matrix(suidata , nrow = 11 , ncol = 1)
+output_matrix <- cbind(datamatrix , cor_matrix)
+rownames(output_matrix) <- c(1999:2009)
+colnames(output_matrix) <- c('suicide', 'runif')
+output_matrix
+```
+
+## Problem 2
+#### 1. 
+```{r }
+A <- output_matrix[,"suicide"]
+S <- output_matrix[,"runif"]
+S1 <- S * ((max(A)-min(A))/(max(S)-min(S)))
+S2 <- S1 + A["1999"] - S1["1999"]
+```
+#### 2. 
+```{r }
+#Stores the cor(A, S2) in outcor in order to be used in the graph title
+outcor <- round(cor(A, S2), 4) #0.9617555
+outcor
+```
+#### 3. 
+```{r }
+p <- plot(A, type = "b", pch = 19, col = "red", xaxt = 'n', 
+          xlab = "Year", ylab = "Suicide")
+# Add one more line
+lines(S2, type = "b", pch = 18, col = "mediumblue")
+# Add axis
+axis(1, at = 1:11 , labels = 1999 : 2009 )
+# Add legend
+legend(x="top", legend=c("Actual data", "Simulated data")
+       ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
+# Add title of the graph
+title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
+```
+
+#### 4.Bonus problem
+```{r }
+plot(A, type = "b", pch = 19, col = "red", col.axis='red', xaxt = 'n', las=1, 
+     xlab = "Year", ylab = "Suicide")
+axis(1, at = 1:11 , labels = 1999 : 2009 )
+par(new=TRUE)
+plot(S, type='b',pch = 18, col = "mediumblue", 
+     xaxt='n', yaxt='n', ylim=c(0.225,1), ann=FALSE)
+axis(4, las=1, col.axis='mediumblue', col='mediumblue')
+legend(x="top", legend=c("Actual data", "Simulated data")
+       ,col=c("red","mediumblue"),lwd=1,lty=c(1,1),pch=c(19,18),ncol=2,bty="n")
+title(main = c(paste('Correlation =', outcor)), col.main = "black", font.main = 2)
+
+```
