@@ -1,6 +1,8 @@
+
 # 1.
 data <- read.csv("/home/loijilai/programming/myR/R-for-data-science/rds_list_new.csv")
 # data <- read.csv('/Users/abner/Dropbox/Mac/Desktop/R studio Data/rds_list.csv')
+
 
 head(data)
 
@@ -37,6 +39,7 @@ student_table[index,1]
 student_table[index,2]
 id_tmp <- matrix(append(student_table[index,1], 0), ncol = 5, byrow = TRUE)
 name_tmp <- matrix(append(student_table[index,2], 0), ncol = 5, byrow = TRUE)
+
 
 j <- 1
 for(i in seq(1, 18, 2)){
