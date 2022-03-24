@@ -1,6 +1,6 @@
 
 # 1.
-data <- read.csv("/home/loijilai/programming/myR/R-for-data-science/rds_list_new.csv")
+data <- read.csv("D:/¬F¤G¤U/R_forData/rds_list.csv")
 # data <- read.csv('/Users/abner/Dropbox/Mac/Desktop/R studio Data/rds_list.csv')
 
 
@@ -15,7 +15,8 @@ chin_eng
 
 # 3.
 name_ch <- gsub("[A-z]|-| |,", "", chin_eng)
-name_ch
+
+name_ch[10] <- '¤ı¤¹?' #¤ı¤¹?
 
 name_en <- gsub("[^A-z\\-\\,\\ ]", "", chin_eng)
 name_en
