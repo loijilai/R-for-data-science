@@ -1,4 +1,4 @@
-data <- read.csv('/home/loijilai/programming/myR/R-for-data-science/rds_list_new.csv')
+data <- read.csv('/Users/abner/Dropbox/Mac/Desktop/R studio Data/rds_list.csv')
 #data <- read.csv('/Users/abner/Dropbox/Mac/Desktop/R studio Data/rds_list.csv')
 
 head(data)
@@ -41,4 +41,8 @@ for(i in seq(1, 18, 2)){
     j = j + 1
 }
 seat_table
+
+###########################
+write.csv(seat_table,"seat_table.csv")
+write.csv2(seat_table,"seat_table.csv") ## export .R into .csv
     
