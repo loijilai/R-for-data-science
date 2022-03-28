@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1. 將 rds_1102list.csv 讀入 R
 
 ```{r }
-data <- read.csv('/home/loijilai/programming/myR/R-for-data-science/rds_list_new.csv')
+data <- read.csv('D:/政二下/R_forData/rds_list.csv')
 head(data)
 ```
 
@@ -31,6 +31,7 @@ chin_eng
 ## 3. 將 name 拆成兩個變數： name_ch 放中文姓名、 name_en 放英文姓名
 ```{r }
 name_ch <- gsub("[A-z]|-| |,", "", chin_eng)
+name_ch[10] <- '王允?'
 name_ch
 
 name_en <- gsub("[^A-z\\-\\,\\ ]", "", chin_eng) 

@@ -182,7 +182,7 @@ pre code {
 </div>
 <div id="將-rds_1102list.csv-讀入-r" class="section level2">
 <h2>1. 將 rds_1102list.csv 讀入 R</h2>
-<pre class="r"><code>data &lt;- read.csv(&#39;/home/loijilai/programming/myR/R-for-data-science/rds_list_new.csv&#39;)
+<pre class="r"><code>data &lt;- read.csv(&#39;D:/政二下/R_forData/rds_list.csv&#39;)
 head(data)</code></pre>
 <pre><code>##   no department         id                   name
 ## 1 1?     外四 ? 107203013?   許佩琪HSU, PEI-CHI ?
@@ -232,9 +232,10 @@ chin_eng</code></pre>
 <div id="將-name-拆成兩個變數-name_ch-放中文姓名-name_en-放英文姓名" class="section level2">
 <h2>3. 將 name 拆成兩個變數： name_ch 放中文姓名、 name_en 放英文姓名</h2>
 <pre class="r"><code>name_ch &lt;- gsub(&quot;[A-z]|-| |,&quot;, &quot;&quot;, chin_eng)
+name_ch[10] &lt;- &#39;王允?&#39;
 name_ch</code></pre>
 <pre><code>##  [1] &quot;許佩琪&quot; &quot;蔡宜璇&quot; &quot;傅冠綺&quot; &quot;鄧昱辰&quot; &quot;陳雨鑫&quot; &quot;陳奕嘉&quot; &quot;趙若涵&quot; &quot;許亮瑜&quot;
-##  [9] &quot;林昀萱&quot; &quot;王允&quot;   &quot;羅祐辰&quot; &quot;張淨淇&quot; &quot;蕭傅謙&quot; &quot;張長瑋&quot; &quot;陳俊禎&quot; &quot;龔光昱&quot;
+##  [9] &quot;林昀萱&quot; &quot;王允?&quot;  &quot;羅祐辰&quot; &quot;張淨淇&quot; &quot;蕭傅謙&quot; &quot;張長瑋&quot; &quot;陳俊禎&quot; &quot;龔光昱&quot;
 ## [17] &quot;許哲睿&quot; &quot;高偉傑&quot; &quot;黃詣鈞&quot; &quot;季冠勳&quot; &quot;李達睿&quot; &quot;施辰諭&quot; &quot;傅宗皓&quot; &quot;李明龍&quot;
 ## [25] &quot;范誠修&quot; &quot;廖珮媗&quot; &quot;江馥羽&quot; &quot;童培德&quot; &quot;何偉寧&quot; &quot;陳俊宇&quot; &quot;賴政霖&quot; &quot;艾習&quot;  
 ## [33] &quot;戴士瑋&quot; &quot;江彤恩&quot; &quot;鄭舒暢&quot; &quot;王品云&quot; &quot;嚴怡詠&quot; &quot;孫煥緯&quot; &quot;蔡旭平&quot; &quot;朱柏諺&quot;
@@ -299,7 +300,7 @@ student_table</code></pre>
 ##  [7,] &quot;108202043&quot; &quot;趙若涵&quot;
 ##  [8,] &quot;109102057&quot; &quot;許亮瑜&quot;
 ##  [9,] &quot;109208093&quot; &quot;林昀萱&quot;
-## [10,] &quot;108208081&quot; &quot;王允&quot;  
+## [10,] &quot;108208081&quot; &quot;王允?&quot; 
 ## [11,] &quot;108206038&quot; &quot;羅祐辰&quot;
 ## [12,] &quot;108206054&quot; &quot;張淨淇&quot;
 ## [13,] &quot;108208014&quot; &quot;蕭傅謙&quot;
@@ -346,7 +347,7 @@ student_table</code></pre>
 <pre class="r"><code>student_table[index,2]</code></pre>
 <pre><code>##  [1] &quot;賴政霖&quot; &quot;陳俊禎&quot; &quot;張長瑋&quot; &quot;傅冠綺&quot; &quot;嚴怡詠&quot; &quot;黃千彧&quot; &quot;范誠修&quot; &quot;廖珮媗&quot;
 ##  [9] &quot;江馥羽&quot; &quot;陳雨鑫&quot; &quot;王品云&quot; &quot;童培德&quot; &quot;孫煥緯&quot; &quot;林昀萱&quot; &quot;何偉寧&quot; &quot;許元滔&quot;
-## [17] &quot;許亮瑜&quot; &quot;朱柏諺&quot; &quot;趙若涵&quot; &quot;王允&quot;   &quot;黃沛婕&quot; &quot;黃詣鈞&quot; &quot;鄧昱辰&quot; &quot;蔡旭平&quot;
+## [17] &quot;許亮瑜&quot; &quot;朱柏諺&quot; &quot;趙若涵&quot; &quot;王允?&quot;  &quot;黃沛婕&quot; &quot;黃詣鈞&quot; &quot;鄧昱辰&quot; &quot;蔡旭平&quot;
 ## [25] &quot;許哲睿&quot; &quot;羅祐辰&quot; &quot;江彤恩&quot; &quot;張淨淇&quot; &quot;楊皓丞&quot; &quot;艾習&quot;   &quot;蕭傅謙&quot; &quot;高偉傑&quot;
 ## [33] &quot;李明龍&quot; &quot;季冠勳&quot; &quot;龔光昱&quot; &quot;李達睿&quot; &quot;陳俊宇&quot; &quot;施辰諭&quot; &quot;鄭舒暢&quot; &quot;陳奕嘉&quot;
 ## [41] &quot;戴士瑋&quot; &quot;蔡宜璇&quot; &quot;許佩琪&quot; &quot;傅宗皓&quot;</code></pre>
@@ -368,7 +369,7 @@ seat_table</code></pre>
 ## 5  &quot;107305108&quot; &quot;107208096&quot; &quot;108405152&quot; &quot;109208093&quot; &quot;107101059&quot;
 ## 6  &quot;王品云&quot;    &quot;童培德&quot;    &quot;孫煥緯&quot;    &quot;林昀萱&quot;    &quot;何偉寧&quot;   
 ## 7  &quot;107701005&quot; &quot;109102057&quot; &quot;108601087&quot; &quot;108202043&quot; &quot;108208081&quot;
-## 8  &quot;許元滔&quot;    &quot;許亮瑜&quot;    &quot;朱柏諺&quot;    &quot;趙若涵&quot;    &quot;王允&quot;     
+## 8  &quot;許元滔&quot;    &quot;許亮瑜&quot;    &quot;朱柏諺&quot;    &quot;趙若涵&quot;    &quot;王允?&quot;    
 ## 9  &quot;109ZU1004&quot; &quot;107208051&quot; &quot;107205008&quot; &quot;107508003&quot; &quot;108208120&quot;
 ## 10 &quot;黃沛婕&quot;    &quot;黃詣鈞&quot;    &quot;鄧昱辰&quot;    &quot;蔡旭平&quot;    &quot;許哲睿&quot;   
 ## 11 &quot;108206038&quot; &quot;108305096&quot; &quot;108206054&quot; &quot;109703008&quot; &quot;109305062&quot;
