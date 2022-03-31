@@ -43,6 +43,6 @@ for(i in seq(1, 18, 2)){
 seat_table
 
 ###########################
-write.csv(seat_table,"seat_table.csv")
+write.csv(seat_table,"seat_table.csv"
 write.csv2(seat_table,"seat_table.csv") ## export .R into .csv
     
