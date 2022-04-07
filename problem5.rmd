@@ -1,0 +1,93 @@
+---
+title: 'Group Assignment: Problem 4'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## 1.
+將資料檔讀入 R，分別計算新版網頁 B 與舊版網頁 A 的訪客數、訪客購物數、訪客購物比例、訪
+客購物比例差。
+
+```{r}
+abtest <- read.csv("D:/政二下/R_forData/abtest_website.csv", header=F, skip=1, 
+                   col.names=c('variant', 'converted', 'length_of_stay', 'revenue'))
+num_A <- subset(abtest, subset=(variant == 'A'))
+num_B <- subset(abtest, subset = (variant == 'B'))
+num_A_buy <- subset(num_A, subset = (length_of_stay != '0'))
+num_B_buy <- subset(num_B, subset = (length_of_stay != '0'))
+```
+從 Environment 知道網頁A、B的訪客數分別為721、730人，且購物人數分別為20、37人。
+```{r}
+prob_A <- 20/721
+prob_B <- 37/730
+prob_diff <- prob_A-prob_B
+prob_A
+prob_B
+prob_diff
+```
+所以A、B的購物比例分別為大約2.8%以及5%，差距大約為2.2%。
+
+## 2.
+建立虛無假設
+$$H_0:p_B-p_A\leq0\quad H_1:p_B-p_A>0$$
+
+## 3.
+根據老師給的公式計算標準誤
+```{r}
+prob_T <- (721*prob_A+730*prob_B)/(721+730)
+Spsqrt <- prob_T*(1-prob_T)
+SE <- sqrt((Spsqrt)*(1/731+1/720))
+SE
+```
+
+## 4.
+樣本統計量之大樣本分配
+$$p_B-p_A\stackrel{a}{\sim} N(\ 0,\ SE^2\ )$$
+
+## 5.
+
+```{r}
+mu0 <- 0                         
+xLims <- c(-0.05, 0.05)   
+x <- seq(-0.05,0.05,1451)
+crit <- qnorm(0.95, mu0, SE)
+curve(dnorm(x, mu0, SE),                     
+      xlim = xLims, lwd=2, col="black", xlab="x", ylab="density", 
+      main="Normal distribution",  xaxs="i")
+abline(v = crit, lty=1, lwd=3, col="blue") 
+text(crit+1, 10, adj = 0, label="←alpha=0.05")
+abline(v = prob_B - prob_A , lty=1, lwd=3, col = 'red')
+text(prob_B-prob_A+1,  10,  adj=0, label="←critical value") 
+```
+
+藍線為臨界值，紅線為樣本比例差。
+
+## 6.
+```{r}
+Z_value <- ((prob_B - prob_A)-0 ) / SE
+p_value <- (1-pnorm(Z_value))
+Z_value
+p_value
+```
+Z值約為2.25，p-value約為0.012。
+
+## 7.
+```{r}
+prop.test(c(730*prob_B,721*prob_A),c(730,721),alternative = c("greater"),correct = FALSE)
+```
+## 8.
+p-value=0.012 小於顯著水準0.05，因此拒絕虛無假設。
+
+
+
+
+
+
