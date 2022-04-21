@@ -1,0 +1,54 @@
+---
+title: 'Group Assignment: 04/21'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+載入 nycflights13 套件，利用 not_cancelled 航班資料、deplyr 套件與%>%回答下列問題
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(nycflights13)
+data(flights)
+not_cancelled <- filter(flights, !is.na(dep_delay), !is.na(arr_delay))
+```
+
+## 1.
+計算每天 arr_delay 超過 1 小時的航班比例，該比例在哪一天最高?
+
+```{r message=FALSE, warning=FALSE}
+Q1 <- (not_cancelled %>% group_by(year, month, day) 
+       %>% summarize(delayRate= mean(arr_delay>60))) %>% arrange(desc(delayRate))
+Q1
+```
+
+## 2.
+計算 2013 年 NYC 至各到達機場的總航班數、平
+均航程(distance)、與平均到達延誤時間
+(arr_delay)
+```{r}
+Q2 <- (not_cancelled %>% group_by(dest) %>% 
+           summarize(flights=n(), avg_dist=mean(distance), avg_arr_delay=mean(arr_delay)))
+Q2
+```
+
+## 3.
+篩選至少有 20 個航班的到達機場(排除 Honolulu
+(HNL))，繪圖討論平均航程(x 軸)與平均到達延誤
+時間(y 軸)的關係。(散佈圖+迴歸線)
+```{r}
+Q3 <- Q2 %>% filter(flights>=20, dest!='HNL')
+plot(Q3$avg_dist, Q3$avg_arr_delay, 
+     xlab = 'average distance', ylab='average delay')
+x <- Q3$avg_dist
+y <- Q3$avg_arr_delay
+abline(lm(y~x), col='red')
+```
+
