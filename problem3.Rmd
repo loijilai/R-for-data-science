@@ -1,0 +1,74 @@
+---
+title: "Group Assignment: Problem 3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## 1. 將 rds_1102list.csv 讀入 R
+
+```{r }
+data <- read.csv('D:/政二下/R_forData/rds_list.csv')
+head(data)
+```
+
+## 2. 利用 gsub()移除各變數的”?”
+```{r }
+student_id <- gsub("[?]", "", data[,3])
+student_id
+
+chin_eng <- gsub("[?]", "", data[,4])
+chin_eng
+```
+
+## 3. 將 name 拆成兩個變數： name_ch 放中文姓名、 name_en 放英文姓名
+```{r }
+name_ch <- gsub("[A-z]|-| |,", "", chin_eng)
+name_ch[10] <- '王允?'
+name_ch
+
+name_en <- gsub("[^A-z\\-\\,\\ ]", "", chin_eng) 
+name_en
+```
+
+## 4. 設定 set.seed(123)，將全班同學學號(id)與中文姓名(name_ch)隨機排入10 × 5的座位表
+```{r }
+set.seed(123)
+index <- sample(1:44, 44, replace = FALSE)
+index
+
+seat_table <- matrix(0, 20, 5)
+rownames(seat_table) <- c(1:20)
+colnames(seat_table) <- c('V1', 'V2', 'V3', 'V4', 'V5')
+seat_table
+
+student_table <- matrix(0, 44, 2)
+student_table[,1] <- student_id
+student_table[,2] <- name_ch
+student_table
+
+student_table[index,1]
+student_table[index,2]
+id_tmp <- matrix(append(student_table[index,1], 0), ncol = 5, byrow = TRUE)
+name_tmp <- matrix(append(student_table[index,2], 0), ncol = 5, byrow = TRUE)
+
+j <- 1
+for(i in seq(1, 18, 2)){
+    seat_table[i,] <- id_tmp[j,]
+    seat_table[i+1,] <- name_tmp[j,]
+    j = j + 1
+}
+seat_table
+```
+
+## 5. 將隨機座位表匯出成 csv 檔
+```{r }
+write.csv(seat_table, file="seat_table.csv")    
+```

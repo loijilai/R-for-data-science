@@ -1,0 +1,107 @@
+---
+title: "Group Assignment: Problem 4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## 1. 
+將 wagedata.csv 讀入 R 並將之視為母體
+
+```{r }
+wagedata <- read.csv("/home/loijilai/programming/myR/R-for-data-science/wagedata.csv")
+```
+
+## 2. 
+計算薪資(wage)的母體平均數與母體標準差 
+```{r }
+mean(wagedata$wage) # mean
+sd(wagedata$wage) # standard error
+```
+
+## 3. 
+### 3-1. 
+設定 set.seed(123)，從母體 526 人中以抽出不放回的方式隨機抽樣 ns = 5 人，計算該隨機樣本的 平均薪資
+```{r }
+set.seed(123)
+samplewage <- sample(wagedata$wage, size = 5, replace = FALSE)
+mean(samplewage)
+```
+### 3-2 & 3-3 
+將 3.1.重複 100 次，取得 100 個樣本平均薪資
+計算這 100 個 ns = 5 樣本平均薪資的標準差（模擬標準差）
+```{r }
+sample_mean_seq <- rep(0,100)
+sample_sd_seq <- rep(0,100)
+
+for(i in 1:100)
+{
+  sample_mean_seq[i] <- mean(sample(wagedata$wage, size = 5, replace = FALSE))
+  sample_sd_seq[i] <- sd(sample(wagedata$wage, size = 5, replace = FALSE))
+}
+sample_mean_seq
+sample_sd_seq
+agsd_sample_sd_seq_five <- sd(sample_mean_seq)
+```
+
+## 4. 
+將隨機樣本數增加至 ns = 10, 50, 100，重複步驟 3. 計算模擬標準差
+```{r }
+samplewage_ten <- sample(wagedata$wage, size = 10, replace = FALSE)
+mean(samplewage_ten)
+
+sample_mean_seq_ten <- rep(0,100)
+sample_sd_seq_ten <- rep(0,100)
+
+for(i in 1:100)
+{
+  sample_mean_seq_ten[i] <- mean(sample(wagedata$wage, size = 10, replace = FALSE))
+  sample_sd_seq_ten[i] <- sd(sample(wagedata$wage, size = 10, replace = FALSE))
+}
+agsd_sample_sd_seq_ten <- sd(sample_mean_seq_ten)
+
+## sample 50
+samplewage_fifty <- sample(wagedata$wage, size = 50, replace = FALSE)
+mean(samplewage_fifty)
+
+sample_mean_seq_fifty <- rep(0,100)
+sample_sd_seq_fifty <- rep(0,100)
+
+for(i in 1:100)
+{
+  sample_mean_seq_fifty[i] <- mean(sample(wagedata$wage, size = 50, replace = FALSE))
+  sample_sd_seq_fifty[i] <- sd(sample(wagedata$wage, size = 50, replace = FALSE))
+}
+agsd_sample_sd_seq_fifty <- sd(sample_mean_seq_fifty)
+
+## sample 100
+samplewage_hundred <- sample(wagedata$wage, size = 100, replace = FALSE)
+mean(samplewage_hundred)
+
+sample_mean_seq_hundred <- rep(0,100)
+sample_sd_seq_hundred <- rep(0,100)
+
+for(i in 1:100)
+{
+  sample_mean_seq_hundred[i] <- mean(sample(wagedata$wage, size = 100, replace = FALSE))
+  sample_sd_seq_hundred[i] <- sd(sample(wagedata$wage, size = 100, replace = FALSE))
+}
+agsd_sample_sd_seq_hundred <- sd(sample_mean_seq_hundred)
+
+theory_sd <- sd(wagedata$wage)/sqrt(526)
+```
+
+## 5. 
+列出 ns = 5, 10, 50, 100的模擬標準差，與樣本平均薪資的理論標準差進行比較 
+```{r }
+compare <- matrix(c(agsd_sample_sd_seq_five,agsd_sample_sd_seq_ten,agsd_sample_sd_seq_fifty,agsd_sample_sd_seq_hundred, theory_sd), nrow = 1)
+
+compare
+```
