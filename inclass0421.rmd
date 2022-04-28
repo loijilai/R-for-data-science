@@ -1,0 +1,26 @@
+---
+title: "R for Data Science 2022/04/21 上課分組練習"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(nycflights13)
+library(tidyverse)
+data(flights)
+
+not_cancelled <- filter(flights, !is.na(dep_delay), !is.na(arr_delay))
+```
+
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## 1.
+```{r}
+Q1 <- (not_cancelled %>% group_by(year, month, day) 
+  %>% summarize(delateRate= mean(arr_delay>60))) %>% arrange(desc(delateRate))
+Q1
+```
+
