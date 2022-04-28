@@ -15,3 +15,9 @@ summary(DID)
 ## People in PA get 3.01 higher minimumwage than people doesn't live in PA.
 ## The minimum wage before wage adjustment is 2.134 higher than after adjustment.(It's not significant)
 ## When people lives in PA and after wage adjustment, the minimum wage will increase by 2.446.(Not significant too)
+
+##            |  NJ = 0   |   NJ = 1 |
+##  ---------------------------------|
+##  after = 0 | "20.299"  |  "17.289"|
+##  ---------------------------------|
+##  after = 1 | "18.165"  |  "22.745"|
