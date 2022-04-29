@@ -1,0 +1,107 @@
+---
+title: 'Group Assignment: 04/27'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+我們將估計提高最低工資對就業的影響效果
+
+## 2.
+將 minwage.csv 讀入 R, 前面 6 筆資料如下
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+minwage <- read.csv(file.path("../datasets/minwage.csv"))
+head(minwage)
+```
+
+## 3.
+分別用 Base R 與 tidyverse 完成 3.1-3.3，所得 data frame 如下
+
+### **Base R Version**
+
+### 3.1
+依下列定義產生 3 個新變數
+```{r}
+fteBefore <- minwage$fullBefore + 0.5 * minwage$partBefore
+fteAfter <- minwage$fullAfter + 0.5 * minwage$partAfter
+NJ <- ifelse(minwage$location == "PA", 0, 1)
+```
+
+### 3.2
+將”before”與”after”同類型變數垂直堆疊成一個變數，並增加一虛擬變數“after”: after=1 indicating the “after” period
+```{r}
+fte <- c(fteAfter, fteBefore) 
+after <- c(rep(1, 358), rep(0, 358))
+```
+
+### 3.3
+保留 fte、NJ、after 三個變數
+```{r}
+minwage_newdata_1 <-  data.frame(fte = fte, NJ = NJ,  after = after)
+head(minwage_newdata_1, 10)
+```
+
+
+### **Tidyverse Version**
+### 3.1
+```{r}
+minwage_mutate <- minwage %>% 
+                  mutate(fteBefore = fullBefore + 0.5*partBefore, 
+                         fteAfter = fullAfter + 0.5*partAfter, 
+                         NJ = ifelse(location == "PA", 0, 1))
+```
+
+### 3.2
+```{r}
+minwage_gather <- minwage_mutate %>% 
+                  gather(key = "ftetype", value = "fte", fteAfter:fteBefore) %>%
+                  mutate(after = ifelse(ftetype == "fteAfter", 1, 0))
+```
+
+### 3.3
+```{r}
+minwage_newdata_2 <- minwage_gather %>% select(fte, NJ, after)
+head(minwage_newdata_2, 10)
+```
+
+
+## 4.
+檢查 3.用 Base R 與 tidyverse 得到的兩個 data frames 是否完全
+一樣?
+```{r}
+dplyr::setequal(minwage_newdata_1, minwage_newdata_2)
+```
+
+## 5.
+考慮一直線迴歸模型: fte ~ NJ + after + NJ:after，請解釋此一迴
+歸模型 4 個係數的經濟意義
+```{r}
+DID <- lm(fte ~ NJ + after + NJ:after, data = minwage_newdata_2)
+summary(DID)
+```
+
+## 6.
+估計 4.的迴歸模型係數並解釋結果
+
+fte = 20.299 means if people lives in PA and before wage adjustment, 
+the minimum wage = 20.299.
+
+People in PA get 3.01 higher minimum wage than people doesn't live in PA.
+
+The minimum wage before wage adjustment is 2.134 higher than 
+the minimum wage after adjustment.(It's not significant)
+
+If people lives in PA and after wage adjustment, the minimum wage will increase by 2.446.(Not significant too)
+
+ |          |  NJ = 0   |   NJ = 1 |
+ |----------|-----------|----------|
+ |after = 0 | "20.299"  |  "17.289"|
+ |after = 1 | "18.165"  |  "22.745"|
