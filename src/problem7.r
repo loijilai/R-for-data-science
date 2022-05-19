@@ -44,7 +44,7 @@ dplyr::setequal(minwage_newdata_1, minwage_newdata_2)
 # 5. Regression
 DID <- lm(fte ~ NJ + after + NJ:after, data = minwage_newdata_2)
 summary(DID)
-## fte = 20.299 means if People lives in PA and before wage adjustment, 
+## fte = 20.299 means if people lives in PA and before wage adjustment, 
 ## the minimum wage = 20.299.
 ## People in PA get 3.01 higher minimum wage than people doesn't live in PA.
 ## The minimum wage before wage adjustment is 2.134 higher than 
