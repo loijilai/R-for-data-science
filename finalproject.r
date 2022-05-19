@@ -39,8 +39,13 @@ cci_df <- data.frame(year, quarter, index_mean)
 # m2
 # 改季資料
 
+head(cci_df)
+cci_df <- cci_df %>% unite(time, year, quarter, sep = "")
 save <- read.csv("datasets/finalproject/Save.csv", header = F)
-save
+colnames(save) <- c("time", "saverate")
+head(save)
+
+h20 <- merge(save, cci_df, by = "time", all = T)
 # 2000
 
 twii <- read.csv("datasets/finalproject/^TWII.csv")[,c(1,6)]
