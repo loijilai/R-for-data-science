@@ -1,0 +1,75 @@
+---
+title: "Group Assignment : 05/26"
+author: "Abner"
+date: "5/26/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Teammates
+ - 107205008 財政四 鄧昱辰
+ - 109102057 經濟二 許亮瑜
+ - 107301060 統計四 賴政霖
+
+We will estimate the test of MSE through k-fold Cross Validation
+
+## 1.
+Import the "Advertising.csv" data set.
+```{r message = FALSE, warning = FALSE}
+raw_data <- read.csv('/Users/abner/Downloads/Advertising.csv')
+```
+
+## 2.
+Write a function of k that estimates the test of MSE for the linear regression of sales on TV abd radio based on the k-fold cross validation 
+```{r message = FALSE, warning = FALSE}
+k_fold_mse <- function(k){
+  set.seed(123)
+  data_sample <- sample(1:nrow(raw_data), size = nrow(raw_data))
+  test_mse <- c()
+  for (i in 1:k){
+    test_data_index <- data_sample[(((i-1)/k)*nrow(raw_data)+1):((i/k)*nrow(raw_data))]
+    test_data <- raw_data[test_data_index, ]
+    train_data <- raw_data[setdiff(data_sample, test_data_index),]
+    model <- lm(data=train_data, formula = sales~TV+radio)
+    predicted <- predict(model, newdata=test_data)
+    test_mse <- append(test_mse, mean((test_data$sales-predicted)^2))
+  }
+  cross_validation <- mean(test_mse)
+  cross_validation
+}
+```
+
+## 3. 
+which of k = 5, 10 and n yields the smallest test MSE estimate?
+```{r message = FALSE, warning = FALSE}
+k_fold_mse(5)
+k_fold_mse(10)
+k_fold_mse(nrow(raw_data))
+```
+we can know that k = n yields the smallest MSE, and MSE = 2.705851
+
+## 4.
+Does adding TV:radio to the sales regression improve prediction accuracy?
+```{r message = FALSE, warning = FALSE}
+k_fold_mse_interaction <- function(k){
+  set.seed(123)
+  data_sample <- sample(1:nrow(raw_data), size = nrow(raw_data))
+  test_mse <- c()
+  for (i in 1:k){
+    test_data_index <- data_sample[(((i-1)/k)*nrow(raw_data)+1):((i/k)*nrow(raw_data))]
+    test_data <- raw_data[test_data_index,]
+    train_data <- raw_data[setdiff(data_sample, test_data_index),]
+    model <- lm(data=train_data, formula = sales~TV+radio+TV:radio)
+    predicted <- predict(model, newdata=test_data)
+    test_mse <- append(test_mse, mean((test_data$sales-predicted)^2))
+  }
+  cross_validation <- mean(test_mse)
+  cross_validation
+}
+k_fold_mse_interaction(5)
+k_fold_mse_interaction(10)
+k_fold_mse_interaction(nrow(raw_data))
+```
+MSE gets smaller after adding the interaction term, and the k-fold interaction MSE(n)  = 0.9134679.
