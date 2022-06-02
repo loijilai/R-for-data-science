@@ -4,7 +4,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ```
 ## Teammates:
 - 107205008 財政四 鄧昱辰
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Q1 (Simulation) Generate the simulated data on (y, x) of sample size n = 100 from the DGP
 
-```{r}
+```{r message=FALSE}
 library(np)
 set.seed(123)
 x <- rnorm(100)
@@ -36,7 +36,7 @@ func <- function(x) x + 2*exp(-16*x^2)
 ```
 
 ## Q2 Prediction
-```{r}
+```{r results='hide'}
 model.lm <- lm(train.y~train.x)
 model.np <- npreg(train.y~train.x, regtype='lc', gradients=T)
 
@@ -44,7 +44,8 @@ newx <- data.frame(seq(-3, 3, length=100))
 colnames(newx) <- c('train.x')
 predict.lm <- predict(model.lm, newdata=newx)
 predict.np <- predict(model.np, newdata=newx)
-
+```
+```{r}
 plot(x, y)
 lines(x=newx$train.x, y=predict.np, col='red')
 abline(model.lm, col='blue')
@@ -66,9 +67,8 @@ mse.np.train
 mse.np.test
 ```
 
-            |Training MSE|Testing MSE
-------------|------------|-------------
+  \\|Training MSE|Testing MSE
+------------|:-----------|:-------------
 Linear Model|0.4855282   |0.5497783 
 NP Model    |0.1383492   |0.1305998
-
 
