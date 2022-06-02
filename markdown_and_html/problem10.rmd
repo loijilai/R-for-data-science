@@ -1,3 +1,19 @@
+---
+title: "Group Assignment: Problem 10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Teammates:
+- 107205008 財政四 鄧昱辰
+- 107301060 統計四 賴政霖
+- 109102057 經濟二 許亮瑜
+
+## Q1 (Simulation) Generate the simulated data on (y, x) of sample size n = 100 from the DGP
+
+```{r}
 library(np)
 set.seed(123)
 x <- rnorm(100)
@@ -5,6 +21,9 @@ u <- rnorm(100, mean=0, sd=0.4)
 fx <- x + 2*exp(-16*x^2)
 y <- fx+u
 df <- data.frame(x,y)
+```
+分割成測試及訓練資料以及設定一些之後會用到的變數
+```{r}
 index <- sample(1:100 ,80)
 train.data <- df[index,]
 colnames(train.data) <- c('train.x', 'y')
@@ -14,7 +33,10 @@ train.x <- train.data$train.x
 train.y <- train.data$y
 test.y <- test.data$y
 func <- function(x) x + 2*exp(-16*x^2)
+```
 
+## Q2 Prediction
+```{r}
 model.lm <- lm(train.y~train.x)
 model.np <- npreg(train.y~train.x, regtype='lc', gradients=T)
 
@@ -30,9 +52,23 @@ curve(func, add=T, from=-3, to=3)
 legend('topleft', 
        legend=c('data', 'True f', 'Linear Regression', 'Nonparametric Regression'),
        bty='n', pch=c(1,NA,NA,NA), lty=c(NA,1,1,1), col=c('black', 'black', 'blue', 'red'))
+```
 
+## Q3 Training and Testing MSEs
+```{r}
 mse.lm.train <- mean((train.y-predict(model.lm, newdata=train.data))^2)
 mse.lm.test <- mean((test.data$y-predict(model.lm, newdata=test.data))^2)
 mse.np.train <- mean((train.y-predict(model.np, newdata=train.data))^2)
 mse.np.test <- mean((test.data$y-predict(model.np, newdata=test.data))^2)
+mse.lm.train
+mse.lm.test
+mse.np.train
+mse.np.test
+```
+
+            |Training MSE|Testing MSE
+------------|------------|-------------
+Linear Model|0.4855282   |0.5497783 
+NP Model    |0.1383492   |0.1305998
+
 
